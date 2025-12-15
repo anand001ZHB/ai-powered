@@ -1,0 +1,28 @@
+.app-container {
+  display: flex;
+  height: calc(100vh - 64px);
+}
+
+.left-panel {
+  width: 280px;
+  padding: 16px;
+  border-right: 1px solid #e0e0e0;
+}
+
+.main-panel {
+  flex: 1;
+  padding: 16px;
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .left-panel {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+  }
+}

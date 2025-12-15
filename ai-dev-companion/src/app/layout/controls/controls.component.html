@@ -1,0 +1,38 @@
+<mat-card>
+
+  <mat-card-header>
+    <mat-card-title>Controls</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+
+    <h4>AI Mode</h4>
+
+    <mat-radio-group>
+      <mat-radio-button value="generative">
+        Generative
+      </mat-radio-button>
+
+      <mat-radio-button value="agentic">
+        Agentic
+      </mat-radio-button>
+    </mat-radio-group>
+
+    <h4>Feature</h4>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Select feature</mat-label>
+      <mat-select>
+        <mat-option value="explain">Explain Code</mat-option>
+        <mat-option value="review">Review Code</mat-option>
+        <mat-option value="debug">Analyze Bug</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" disabled>
+      Analyze
+    </button>
+
+  </mat-card-content>
+
+</mat-card>

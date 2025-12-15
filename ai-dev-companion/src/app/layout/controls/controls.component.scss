@@ -1,0 +1,28 @@
+mat-card {
+  margin: 8px;
+  background-color: #fafafa;
+}
+
+mat-card-header {
+  background-color: #e3f2fd;
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
+}
+
+mat-card-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+mat-card-content h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+mat-card-content {
+  gap: 16px;
+}
+
+
+

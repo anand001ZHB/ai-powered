@@ -1,0 +1,15 @@
+.main-panel-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.output-placeholder {
+  min-height: 120px;
+  color: #666;
+  font-style: italic;
+}
