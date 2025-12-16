@@ -20,4 +20,10 @@ export class MainPanelComponent {
 
   constructor(private aiState: AiStateService) { }
 
+  onCodeChange(event: Event) {
+    const value = (event.target as HTMLTextAreaElement).value;
+    this.aiState.setCode(value);
+  }
+
+
 }
