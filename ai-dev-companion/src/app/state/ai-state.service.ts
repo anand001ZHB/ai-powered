@@ -1,15 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environment/environment';
 
 export type AiMode = 'generative' | 'agentic';
 export type AiFeature = 'explain' | 'review' | 'debug';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AiStateService {
+
+  constructor(private zone: NgZone) { }
+
   private modeSubject = new BehaviorSubject<AiMode>('generative');
   private featureSubject = new BehaviorSubject<AiFeature>('explain');
+  private eventSource?: EventSource;
 
   mode$ = this.modeSubject.asObservable();
   feature$ = this.featureSubject.asObservable();
@@ -27,31 +33,69 @@ export class AiStateService {
   output$ = this.outputSubject.asObservable();
 
   // NEW: simulate analysis
+  // runAnalysis() {
+  //   const mode = this.modeSubject.value;
+  //   const feature = this.featureSubject.value;
+
+  //   this.outputSubject.next([])
+
+  //   if (mode === 'generative') {
+  //     this.outputSubject.next([
+  //       `Generated ${feature} explanation in one step.`
+  //     ]);
+  //   } else {
+  //     const steps = [
+  //       'Step 1: Understanding input',
+  //       'Step 2: Planning actions',
+  //       'Step 3: Executing tools',
+  //       'Step 4: Final response'
+  //     ];
+
+  //     steps.forEach((step, index) => {
+  //       setTimeout(() => {
+  //         const current = this.outputSubject.value;
+  //         this.outputSubject.next([...current, step]);
+  //       }, (index + 1) * 800);
+  //     });
+  //   }
+  // }
+
   runAnalysis() {
-    const mode = this.modeSubject.value;
-    const feature = this.featureSubject.value;
-
-    this.outputSubject.next([])
-
-    if (mode === 'generative') {
-      this.outputSubject.next([
-        `Generated ${feature} explanation in one step.`
-      ]);
-    } else {
-      const steps = [
-        'Step 1: Understanding input',
-        'Step 2: Planning actions',
-        'Step 3: Executing tools',
-        'Step 4: Final response'
-      ];
-
-      steps.forEach((step, index) => {
-        setTimeout(() => {
-          const current = this.outputSubject.value;
-          this.outputSubject.next([...current, step]);
-        }, (index + 1) * 800);
-      });
+    // ✅ Close previous stream if any
+    console.log('Agent API URL:', environment.agentApiUrl);
+    if (this.eventSource) {
+      this.eventSource.close();
     }
+
+    this.outputSubject.next([]);
+
+    this.eventSource = new EventSource(
+      `${environment.agentApiUrl}/agent/stream`
+    );
+
+    this.eventSource.onmessage = (event) => {
+      this.zone.run(() => {
+        if (event.data === 'DONE') {
+          this.eventSource?.close();
+          return;
+        }
+
+        const current = this.outputSubject.value;
+        this.outputSubject.next([...current, event.data]);
+      });
+    };
+
+
+    this.eventSource.onerror = () => {
+      this.zone.run(() => {
+        this.eventSource?.close();
+        this.outputSubject.next([
+          ...this.outputSubject.value,
+          'Error: connection lost'
+        ]);
+      });
+    };
+
   }
 
 }
