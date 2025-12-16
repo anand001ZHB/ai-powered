@@ -8,7 +8,7 @@
 
     <h4>AI Mode</h4>
 
-    <mat-radio-group>
+    <mat-radio-group (change)="onModeChange($event.value)">
       <mat-radio-button value="generative">
         Generative
       </mat-radio-button>
@@ -22,14 +22,14 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Select feature</mat-label>
-      <mat-select>
+      <mat-select (selectionChange)="onFeatureChange($event.value)">
         <mat-option value="explain">Explain Code</mat-option>
         <mat-option value="review">Review Code</mat-option>
         <mat-option value="debug">Analyze Bug</mat-option>
       </mat-select>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" disabled>
+    <button mat-raised-button color="primary" (click)="analyze()">
       Analyze
     </button>
 

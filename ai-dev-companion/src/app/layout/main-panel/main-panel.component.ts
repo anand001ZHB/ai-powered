@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { AiStateService } from '../../state/ai-state.service';
 
 @Component({
   selector: 'app-main-panel',
@@ -12,5 +13,11 @@ import { MatInputModule } from '@angular/material/input';
   styleUrls: ['./main-panel.component.scss']
 })
 export class MainPanelComponent {
+
+  mode$ = this.aiState.mode$;
+  feature$ = this.aiState.feature$;
+  output$ = this.aiState.output$;
+
+  constructor(private aiState: AiStateService) { }
 
 }

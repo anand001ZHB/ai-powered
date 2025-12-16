@@ -9,11 +9,7 @@
     <mat-card-content>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Paste your code here</mat-label>
-        <textarea
-          matInput
-          rows="10"
-          placeholder="Paste your code or problem statement here..."
-        ></textarea>
+        <textarea matInput rows="10" placeholder="Paste your code or problem statement here..."></textarea>
       </mat-form-field>
     </mat-card-content>
   </mat-card>
@@ -25,7 +21,15 @@
     </mat-card-header>
 
     <mat-card-content class="output-placeholder">
-      AI response will appear here.
+      <div>
+        <strong>Mode:</strong> {{ mode$ | async }}
+      </div>
+      <div>
+        <strong>Feature:</strong> {{ feature$ | async }}
+      </div>
+      <div *ngFor="let line of output$ | async">
+        {{ line }}
+      </div>
     </mat-card-content>
   </mat-card>
 
